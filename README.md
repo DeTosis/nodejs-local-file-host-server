@@ -17,9 +17,7 @@ After starting up server you can navigate to `http://localhost:7900` to access w
 Or by using ipv4 `http://<IpV4Adress>:7900` to connect from local network
 
 ## Web UI
-![serverPrev](https://github.com/user-attachments/assets/61eaf667-85c4-4a80-9fea-d4d840bbb8b7)
-![serverPrev2](https://github.com/user-attachments/assets/f952aac2-88bf-4da5-84b0-7b5628027a90)
-
+![serverPrev](https://github.com/user-attachments/assets/cc891119-f240-4282-8739-c4a28ce35faf)
 
 ## TIP
 > Add Port `7900` to the firewall inbound rulle to allow connections
