@@ -7,6 +7,10 @@ const port = 7900;
 const serverRoot = '../web'
 const sharedFolder = '../shared'
 
+if (!fs.existsSync(sharedFolder)){
+    fs.mkdirSync(sharedFolder);
+}
+
 function getContentType(ext){
     const types = {
         '.html' :   'text/html',
