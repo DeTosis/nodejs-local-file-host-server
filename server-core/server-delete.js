@@ -1,7 +1,7 @@
 import fs from 'fs';
 
 import { sanitize } from './sanitization.js';
-import { send500 } from './status.js'
+import { send500, send403 } from './status.js'
 
 let sharedFolder;
 export function setSharedFolder(path){

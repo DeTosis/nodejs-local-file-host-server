@@ -10,7 +10,12 @@ export function setSharedFolder(path){
 export function processPOST(req,res){
     const contentType = req.headers['content-type'];
     if (contentType && contentType.includes('multipart/form-data')){
-        const boundary = contentType.split('boundary=')[1];
+        const boundaryMatch = contentType.match(/boundary=(?:"([^"]+)"|([^;]+))/);
+        if (!boundaryMatch) {
+            res.writeHead(400);
+            return res.end('No boundary found in content-type.');
+        }
+        const boundary = '--' + (boundaryMatch[1] || boundaryMatch[2]);
 
         parseMultipartData(req, boundary, () => {
             res.writeHead(200, { 'Content-Type': 'text/plain' });
@@ -20,35 +25,40 @@ export function processPOST(req,res){
 }
 
 function parseMultipartData(req, boundary, callback) {
-    let data = '';
-
-    req.setEncoding('utf8'); // Use utf8, not binary
+    let data = Buffer.alloc(0);
 
     req.on('data', chunk => {
-        data += chunk;
+        data = Buffer.concat([data, chunk]);
     });
 
     req.on('end', () => {
-        const parts = data.split(boundary).filter(part => part.trim());
+        const parts = data.toString('latin1').split(boundary).filter(p => p.trim());
 
-        for (let part of parts) {
-            const headerEndIndex = part.indexOf('\r\n\r\n');
-            if (headerEndIndex === -1) continue;
+        for (const part of parts) {
+            const [rawHeaders, rawBody] = part.split('\r\n\r\n');
+            if (!rawHeaders || !rawBody) continue;
 
-            const headers = part.slice(0, headerEndIndex);
-            const content = part.slice(headerEndIndex + 4, part.lastIndexOf('\r\n'));
+            const headers = rawHeaders.split('\r\n');
+            const disposition = headers.find(h => h.toLowerCase().startsWith('content-disposition'));
+            if (!disposition) continue;
 
-            const match = headers.match(/filename="(.+?)"/);
-            if (match) {
-                let filename = match[1];
-                filename = path.basename(filename); // Sanitize
+            const filenameMatch = disposition.match(/filename="(.+?)"/);
+            if (!filenameMatch) continue;
 
-                const savePath = path.join(sharedFolder, filename);
-                fs.writeFileSync(savePath, content, 'utf8'); // 'utf8' for text files, but unsafe for binary files
-            }
+            let filename = filenameMatch[1];
+            filename = path.basename(filename);
+
+            try {
+                filename = decodeURIComponent(escape(filename));
+            } catch (e) { }
+
+            const bodyEnd = rawBody.lastIndexOf('\r\n');
+            const fileContent = Buffer.from(rawBody.slice(0, bodyEnd), 'latin1');
+
+            const savePath = path.join(sharedFolder, filename);
+            fs.writeFileSync(savePath, fileContent);
         }
-
-        callback();
     });
+    callback();
 }
 
