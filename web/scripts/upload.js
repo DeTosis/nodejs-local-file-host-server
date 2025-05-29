@@ -1,12 +1,15 @@
 window.addEventListener('load', () => {
+    const div = document.createElement('div');
     const img = document.createElement('img');
     img.src = '../img/download.png';
     img.className = 'download-img';
+    div.className = 'img-container';
 
     img.onclick = () => uploadFile();
 
     const footer = document.getElementById('footer');
-    footer.append(img);
+    div.append(img);
+    footer.append(div);
 });
 
 function uploadFile(){
