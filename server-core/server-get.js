@@ -45,7 +45,7 @@ export function processGet(req,res){
 function serveFile(res, filePath){
     fs.stat(filePath, (err,stats) => {
         if (err) {
-            send404();
+            send404(res,err);
             return;
         }else{
             const stream = fs.createReadStream(filePath);

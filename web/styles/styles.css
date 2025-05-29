@@ -6,6 +6,9 @@
     --remove-bg-gradient: #964949;
     --footerBG: #251f27;
     --upload-hover: #468e61;
+    --tooltip-bg:#635F8A;
+    --preview-hover: #64929B;
+    --ext-display-fg: #414141;
 }
 
 body{
@@ -23,6 +26,7 @@ body{
 }
 
 .shared-list-item{
+    display: flex;
     border-radius: 25px;
     padding: 10px;
     margin: 10px;
@@ -40,6 +44,11 @@ body{
         background: linear-gradient(45deg,var(--remove-bg-gradient) 20%, rgba(38, 36, 50, 1) 20%);
         transition: background-position 0.4s ease;
     }
+
+    .shared-list-item:has(.preview-img:hover){
+        background: linear-gradient(45deg,var(--preview-hover) 20%, rgba(38, 36, 50, 1) 20%);
+        transition: background-position 0.4s ease;
+    }
 }
 
 @media only screen and (min-width: 600px) {
@@ -52,6 +61,11 @@ body{
         background: linear-gradient(45deg,var(--remove-bg-gradient) 7.5%, rgba(38, 36, 50, 1) 7.5%);
         transition: background-position 0.4s ease;
     }
+
+    .shared-list-item:has(.preview-img:hover){
+        background: linear-gradient(45deg,var(--preview-hover) 7.5%, rgba(38, 36, 50, 1) 7.5%);
+        transition: background-position 0.4s ease;
+    }
 }
 
 .shared-list-item:has(.shared-list-link:hover){
@@ -60,10 +74,26 @@ body{
     transition: background-position 0.4s ease;
 }
 
+.shared-list-link{
+    width: 50%;
+}
+
 .shared-list-item:has(.close-img:hover){
     background-position: left;
     background-size: 200% 100%;
     transition: background-position 0.4s ease;
+}
+
+.shared-list-item:has(.preview-img:hover){
+    background-position: left;
+    background-size: 200% 100%;
+    transition: background-position 0.4s ease;
+}
+
+.controls-div{
+    position: relative;
+    display: inline-block;
+    width: 50%;
 }
 
 a{
@@ -96,7 +126,8 @@ h2{
 }
 
 .close-img {
-    float: right;
+    position: absolute;
+    right: 4px;
     height: 14px;
     margin-right: 4px;
     margin-top: 2px;
@@ -117,6 +148,7 @@ h2{
     left: 0;
     bottom: 0;
     width: 100%;
+    min-height: 55px;
     height: 6%;
     background-color:var(--footerBG);
 }
@@ -145,4 +177,35 @@ h2{
     border-radius: 15%;
     transition: border-color 0.4s ease-in-out;
     transition: border-radius 0.6s ease-in-out;
+}
+
+.preview-img{
+    position: absolute;
+    right: 38px;
+    height: 14px;
+    width: 14px;
+    transform: rotate(0deg) translateY(10%);
+    transition: transform 1s ease;
+}
+
+.preview-img:hover{
+    transform: rotate(90deg) translateY(10%);
+    transition: transform 1s ease;
+}
+
+.ext-display{
+    position: absolute;
+    left: 40px;
+    color: var(--ext-display-fg);
+    display: inline-block; 
+    width: 40px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+}
+
+.empty-preview{
+    visibility: hidden;
+    opacity: 0;
 }
