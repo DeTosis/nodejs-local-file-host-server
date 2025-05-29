@@ -4,6 +4,8 @@
     --content-fg: #F7ECE1;
     --main-bg-start: #17171C;
     --remove-bg-gradient: #964949;
+    --footerBG: #251f27;
+    --upload-hover: #468e61;
 }
 
 body{
@@ -96,4 +98,32 @@ h2{
 .close-img:hover{
     transform: rotate(90deg);
     transition: transform 1s;
+}
+
+#footer{
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 6%;
+    background-color:var(--footerBG);
+}
+
+.download-img{
+    border-bottom: 3px solid var(--li-bg-hover);
+    border-radius: 4%;
+    padding: 1%;
+    transition: border-color 0.4s ease;
+    transition: border-radius 0.6s ease;
+}
+
+.download-img:hover{
+    border-bottom: 3px solid var(--upload-hover);
+    padding: 1%;
+    border-radius: 15%;
+    transition: border-color 0.4s ease;
+    transition: border-radius 0.6s ease;
 }
