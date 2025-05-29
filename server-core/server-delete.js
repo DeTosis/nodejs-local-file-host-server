@@ -2,6 +2,7 @@ import fs from 'fs';
 
 import { sanitize } from './sanitization.js';
 import { send500, send403 } from './status.js'
+import { escape } from 'querystring';
 
 let sharedFolder;
 export function setSharedFolder(path){
@@ -9,7 +10,10 @@ export function setSharedFolder(path){
 }
 
 export function processDELETE(req,res){
-    const decoded = decodeURIComponent(req.url);
+    req.setEncoding('utf8');
+
+    const safe = req.url.replace(/%(?![0-9A-Fa-f]{2})/g, '');
+    const decoded = decodeURIComponent(safe);
     const safePath = sanitize(decoded);
 
     const parts = safePath.split('\\');

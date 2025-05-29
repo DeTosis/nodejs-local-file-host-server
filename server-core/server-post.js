@@ -49,7 +49,8 @@ function parseMultipartData(req, boundary, callback) {
             filename = path.basename(filename);
 
             try {
-                filename = decodeURIComponent(escape(filename));
+                const safe = filename.replace(/%(?![0-9A-Fa-f]{2})/g, '');
+                filename = decodeURIComponent(escape(safe));
             } catch (e) { }
 
             const bodyEnd = rawBody.lastIndexOf('\r\n');
