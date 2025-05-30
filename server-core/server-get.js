@@ -1,8 +1,10 @@
-import path from 'path';
+import path, { parse } from 'path';
 import fs from 'fs';
 
 import { sanitize } from './sanitization.js';
 import { send404, send500 } from './status.js'
+
+import urlimport from 'url';
 
 import EventEmitter from 'events';
 const emitter = new EventEmitter();
@@ -33,6 +35,41 @@ export function processGet(req,res){
             url = req.url;
         break;
     }
+
+    const parsedUrl = urlimport.parse(req.url, true);
+    if (parsedUrl.pathname === '/view-image') {
+        const imgSrc = parsedUrl.query.src;
+
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end(`
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <title>${decodeURIComponent(imgSrc).split('/').reverse()[0]}</title>
+                <style>
+                body {
+                    margin: 0;
+                    background: #17171C;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                }
+                img {
+                    max-width: 100%;
+                    max-height: 100%;
+                }
+                </style>
+            </head>
+            <body>
+                <img src="${imgSrc ? decodeURIComponent(imgSrc) : ''}" alt="Image" />
+            </body>
+            </html>
+            `);
+            return;
+    } 
+
     const safePath = sanitize(url);
     let filePath;
     if (url == '/shared'){
@@ -56,7 +93,7 @@ setInterval(() => {
         emitter.emit('data-updated-event', data);
         hostedFiles = fileUpdate;
     }
-}, 1000);
+}, 500);
 
 function handleEventRouting(req, res){
     res.writeHead(200, {

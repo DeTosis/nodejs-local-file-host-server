@@ -54,27 +54,7 @@ async function loadPage(){
 
             preview.onclick = () => {
                 const src = `${sharedFolder}/${a.textContent.trim()}`
-                fetch(src)
-                .then(res => res.blob())
-                .then(blob => {
-                    const imgUrl = URL.createObjectURL(blob);
-
-                    const newWindow = window.open('', '_blank');
-
-                    if (newWindow) {
-                        newWindow.document.write(`
-                            <html>
-                                <head><title>${a.textContent.trim()}</title></head>
-                                <body style="margin:0;display:flex;justify-content:center;align-items:center;height:100vh;background:#000;">
-                                    <img src="${imgUrl}" style="max-width:100%;max-height:100%;" />
-                                </body>
-                            </html>
-                            `);
-                        newWindow.document.close();
-                    }
-
-                })
-                .catch(error => console.error('Error fetching image:', error));
+                window.open(`/view-image?src=${encodeURIComponent(src)}`, '_blank');
             }
         }else{
             preview.className = 'preview-img empty-preview';

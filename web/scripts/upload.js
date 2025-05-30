@@ -18,22 +18,20 @@ function uploadFile(){
     input.multiple = true;
 
     input.addEventListener('change', async function(){
-    const files = input.files;
-    const formData = new FormData();
+        const files = input.files;
+        const formData = new FormData();
 
-    for (let i = 0; i < files.length; i++){
-        formData.append('files[]', files[i],files[i].webkitRelativePath || files[i].name);
-    }
-
-    await fetch('/uploads', {
-            method: 'POST',
-            body: formData
-        }).then(res => async function(){
-            if (res.status == 200){
-                await reloadPage();
-            }
-        });
+        for (let i = 0; i < files.length; i++){
+            formData.append('files[]', files[i],files[i].webkitRelativePath || files[i].name);
+        }
+        await fetch('/uploads', {
+                method: 'POST',
+                body: formData
+            }).then(async(res) => {
+                if (res.status == 200){
+                    await reloadPage();
+                }
+            });
     });
-
     input.click();
 }

@@ -1,4 +1,4 @@
-:root{
+:root {
     --li-bg-hover: #8D86C9;
     --li-bg-base: #262432;
     --content-fg: #F7ECE1;
@@ -6,12 +6,12 @@
     --remove-bg-gradient: #964949;
     --footerBG: #251f27;
     --upload-hover: #468e61;
-    --tooltip-bg:#635F8A;
+    --tooltip-bg: #635F8A;
     --preview-hover: #64929B;
     --ext-display-fg: #414141;
 }
 
-body{
+body {
     color: var(--content-fg);
     background-color: var(--main-bg-start);
     font-family: "PT Mono", monospace;
@@ -20,12 +20,12 @@ body{
     font-style: normal;
 }
 
-#shared-data-list{
+#shared-data-list {
     padding: 0;
     list-style-type: none;
 }
 
-.shared-list-item{
+.shared-list-item {
     display: flex;
     border-radius: 25px;
     padding: 10px;
@@ -35,93 +35,93 @@ body{
 }
 
 @media only screen and (max-width: 600px) {
-    .shared-list-item:has(.shared-list-link:hover){
-        background: linear-gradient(45deg,var(--li-bg-hover) 20%, rgba(38, 36, 50, 1) 20%);
+    .shared-list-item:has(.shared-list-link:hover) {
+        background: linear-gradient(45deg, var(--li-bg-hover) 20%, rgba(38, 36, 50, 1) 20%);
         transition: background-position 0.4s ease;
     }
 
-    .shared-list-item:has(.close-img:hover){
-        background: linear-gradient(45deg,var(--remove-bg-gradient) 20%, rgba(38, 36, 50, 1) 20%);
+    .shared-list-item:has(.close-img:hover) {
+        background: linear-gradient(45deg, var(--remove-bg-gradient) 20%, rgba(38, 36, 50, 1) 20%);
         transition: background-position 0.4s ease;
     }
 
-    .shared-list-item:has(.preview-img:hover){
-        background: linear-gradient(45deg,var(--preview-hover) 20%, rgba(38, 36, 50, 1) 20%);
+    .shared-list-item:has(.preview-img:hover) {
+        background: linear-gradient(45deg, var(--preview-hover) 20%, rgba(38, 36, 50, 1) 20%);
         transition: background-position 0.4s ease;
     }
 }
 
 @media only screen and (min-width: 600px) {
-    .shared-list-item:has(.shared-list-link:hover){
-        background: linear-gradient(45deg,var(--li-bg-hover) 7.5%, rgba(38, 36, 50, 1) 7.5%);
+    .shared-list-item:has(.shared-list-link:hover) {
+        background: linear-gradient(45deg, var(--li-bg-hover) 7.5%, rgba(38, 36, 50, 1) 7.5%);
         transition: background-position 0.6s ease;
     }
 
-    .shared-list-item:has(.close-img:hover){
-        background: linear-gradient(45deg,var(--remove-bg-gradient) 7.5%, rgba(38, 36, 50, 1) 7.5%);
+    .shared-list-item:has(.close-img:hover) {
+        background: linear-gradient(45deg, var(--remove-bg-gradient) 7.5%, rgba(38, 36, 50, 1) 7.5%);
         transition: background-position 0.4s ease;
     }
 
-    .shared-list-item:has(.preview-img:hover){
-        background: linear-gradient(45deg,var(--preview-hover) 7.5%, rgba(38, 36, 50, 1) 7.5%);
+    .shared-list-item:has(.preview-img:hover) {
+        background: linear-gradient(45deg, var(--preview-hover) 7.5%, rgba(38, 36, 50, 1) 7.5%);
         transition: background-position 0.4s ease;
     }
 }
 
-.shared-list-item:has(.shared-list-link:hover){
+.shared-list-item:has(.shared-list-link:hover) {
     background-position: left;
     background-size: 200% 100%;
     transition: background-position 0.4s ease;
 }
 
-.shared-list-link{
+.shared-list-link {
     width: 50%;
 }
 
-.shared-list-item:has(.close-img:hover){
+.shared-list-item:has(.close-img:hover) {
     background-position: left;
     background-size: 200% 100%;
     transition: background-position 0.4s ease;
 }
 
-.shared-list-item:has(.preview-img:hover){
+.shared-list-item:has(.preview-img:hover) {
     background-position: left;
     background-size: 200% 100%;
     transition: background-position 0.4s ease;
 }
 
-.controls-div{
+.controls-div {
     position: relative;
     display: inline-block;
     width: 50%;
 }
 
-a{
+a {
     text-decoration: none;
     margin-left: 2%;
     color: var(--content-fg);
 }
 
-a{
-  display: inline-block; 
-  max-width: 80%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  vertical-align: top;
+a {
+    display: inline-block;
+    max-width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
 }
 
-a:hover{
+a:hover {
     text-decoration: underline;
 }
 
-h2{
+h2 {
     border-bottom: 2px solid var(--content-fg);
     padding-bottom: 8px;
     display: inline-block;
 }
 
-.title{
+.title {
     text-align: center;
 }
 
@@ -135,12 +135,12 @@ h2{
     transition: transform 1s;
 }
 
-.close-img:hover{
+.close-img:hover {
     transform: rotate(90deg);
     transition: transform 1s;
 }
 
-#footer{
+#footer {
     position: fixed;
     display: flex;
     justify-content: center;
@@ -150,36 +150,36 @@ h2{
     width: 100%;
     min-height: 55px;
     height: 6%;
-    background-color:var(--footerBG);
+    background-color: var(--footerBG);
 }
 
-.download-img{
+.download-img {
     position: relative;
     top: -2%;
     transition: top 0.1s ease-in-out;
 }
 
-.download-img:hover{
+.download-img:hover {
     position: relative;
     top: -10%;
     transition: top 0.1s ease-in-out;
 }
 
-.img-container{
+.img-container {
     position: relative;
     top: 2%;
     border-bottom: 3px solid var(--li-bg-hover);
     border-radius: 4%;
 }
 
-.img-container:hover{
+.img-container:hover {
     border-bottom: 3px solid var(--upload-hover);
     border-radius: 15%;
     transition: border-color 0.4s ease-in-out;
     transition: border-radius 0.6s ease-in-out;
 }
 
-.preview-img{
+.preview-img {
     position: absolute;
     right: 38px;
     height: 14px;
@@ -188,16 +188,16 @@ h2{
     transition: transform 1s ease;
 }
 
-.preview-img:hover{
+.preview-img:hover {
     transform: rotate(90deg) translateY(10%);
     transition: transform 1s ease;
 }
 
-.ext-display{
+.ext-display {
     position: absolute;
     left: 40px;
     color: var(--ext-display-fg);
-    display: inline-block; 
+    display: inline-block;
     width: 40px;
     white-space: nowrap;
     overflow: hidden;
@@ -205,7 +205,7 @@ h2{
     vertical-align: top;
 }
 
-.empty-preview{
+.empty-preview {
     visibility: hidden;
     opacity: 0;
 }
