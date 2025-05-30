@@ -13,11 +13,13 @@ window.addEventListener('load', () => {
 });
 
 function uploadFile(){
-    let input = document.createElement('input');
+    let input = document.getElementById('hiddenFileInput');
+    input.value = '';
+
     input.type = 'file';
     input.multiple = true;
 
-    input.addEventListener('change', async function(){
+    input.onchange = async function(){
         const files = input.files;
         const formData = new FormData();
 
@@ -32,6 +34,7 @@ function uploadFile(){
                     await reloadPage();
                 }
             });
-    });
+        input.onchange = null;
+    };
     input.click();
 }
