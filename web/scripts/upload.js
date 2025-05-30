@@ -5,7 +5,7 @@ window.addEventListener('load', () => {
     img.className = 'download-img';
     div.className = 'img-container';
 
-    img.onclick = () => uploadFile();
+    img.onclick = () =>  uploadFile();
 
     const footer = document.getElementById('footer');
     div.append(img);
@@ -28,10 +28,9 @@ function uploadFile(){
     await fetch('/uploads', {
             method: 'POST',
             body: formData
-        })
-        .then(res => {
+        }).then(res => async function(){
             if (res.status == 200){
-                window.location.reload();
+                await reloadPage();
             }
         });
     });

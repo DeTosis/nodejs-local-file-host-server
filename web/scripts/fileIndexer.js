@@ -1,9 +1,33 @@
 const sharedFolder = '/shared';
 
-window.onload = async function(){
+const eventSource = new EventSource('/events');
+
+eventSource.onmessage = async () => {
+    await reloadPage();
+};
+
+async function reloadPage(){
+    await loadPage();
+}
+
+function clearPage(){
+    const elements = document.getElementsByClassName('shared-list-item');
+    const elementsArray = Array.from(elements);
+    for (let i = elementsArray.length - 1; i >= 0; i--) {
+    elementsArray[i].remove();
+    }
+}
+
+window.onload = async () => {
+    await reloadPage();
+};
+
+async function loadPage(){
+    clearPage();
     const response = await fetch(sharedFolder);
     const data = await response.json();
    
+    console.log(data);
     data.forEach(element => {
         const li = document.createElement('li');
         const a = document.createElement('a');
@@ -62,7 +86,7 @@ window.onload = async function(){
         
         li.className = 'shared-list-item';
         a.onclick = () => downloadFile(li);
-        close_img.onclick = () => RemoveFile(li);
+        close_img.onclick = () => RemoveFile(a);
         
         a.className = 'shared-list-link';
         a.href = '#';
@@ -99,7 +123,7 @@ function downloadFile(element){
     document.body.removeChild(a);
 }
 
-function RemoveFile(element){
+async function RemoveFile(element){
     const fileName = element.textContent.trim();
     const url = `${sharedFolder}/${fileName}`;
 
@@ -110,10 +134,10 @@ function RemoveFile(element){
         },
         body: JSON.stringify({ fileName })
     })
-    .then(res => {
-        if (res.status == 200){
-            window.location.reload();
-        }
+    .then(res => async function(){
+            if (res.status == 200){
+                await reloadPage();
+            }
     })
     .catch(err => {
         console.error(err);

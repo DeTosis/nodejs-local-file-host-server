@@ -4,6 +4,9 @@ import fs from 'fs';
 import { sanitize } from './sanitization.js';
 import { send404, send500 } from './status.js'
 
+import EventEmitter from 'events';
+const emitter = new EventEmitter();
+
 let sharedFolder;
 export function setSharedFolder(path){
     sharedFolder = path;
@@ -23,6 +26,9 @@ export function processGet(req,res){
         case '/shared':
             url = '/shared';
         break;
+        case '/events':
+            handleEventRouting(req,res);
+        return;
         default:
             url = req.url;
         break;
@@ -40,6 +46,36 @@ export function processGet(req,res){
         filePath = path.join(serverRoot, safePath);
         serveFile(res, filePath);
     }
+}
+
+let hostedFiles = fs.readdirSync('../shared');
+setInterval(() => {
+    const fileUpdate = fs.readdirSync('../shared');
+    if (JSON.stringify(hostedFiles) !== JSON.stringify(fileUpdate)){
+        const data = { message: 'update' };
+        emitter.emit('data-updated-event', data);
+        hostedFiles = fileUpdate;
+    }
+}, 1000);
+
+function handleEventRouting(req, res){
+    res.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+    });
+    res.write('\n');
+    
+    const sendEvent = (data) => {
+      res.write(`data: ${JSON.stringify(data)}\n\n`);
+    };
+
+    const listener = (data) => sendEvent(data);
+    emitter.on('data-updated-event', listener);
+
+    req.on('close', () => {
+      emitter.removeListener('data-updated-event', listener);
+    });
 }
 
 function serveFile(res, filePath){
